@@ -26,6 +26,7 @@ public class Notepad extends Application {
 
 
     public void start(Stage stage) {
+        FindAndReplace findAndReplace = new FindAndReplace();
         bp = new BorderPane();
         menuBar = new MenuBar();
 
@@ -72,7 +73,7 @@ public class Notepad extends Application {
         delete.setOnAction(event -> ta.deleteText(ta.getSelection().getStart(), ta.getSelection().getEnd()));
 
         MenuItem replace = new MenuItem("Replace");
-        replace.setOnAction(event -> replace(ta));
+        replace.setOnAction(event -> findAndReplace.getView(ta));
 
         MenuItem time = new MenuItem("Date/Time");
         time.setOnAction(event -> insertTime(ta));
@@ -101,9 +102,6 @@ public class Notepad extends Application {
 
     }
 
-    public void replace (TextArea ta) {
-
-    }
 
     public void insertTime(TextArea ta) {
         LocalDateTime ldt = LocalDateTime.now();
