@@ -1,6 +1,5 @@
 package notepad;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,13 +9,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.util.Scanner;
 
 public class FindAndReplace {
 
 
-    public Stage getView(TextArea ta) {
+    public void getView(TextArea ta) {
         Stage stage = new Stage();
         BorderPane bp = new BorderPane();
 
@@ -26,7 +24,7 @@ public class FindAndReplace {
         Label replace = new Label("Replace");
         replace.setAlignment(Pos.CENTER);
         leftLabels.setSpacing(20);
-        leftLabels.getChildren().addAll(find,replace);
+        leftLabels.getChildren().addAll(find, replace);
 
         VBox leftTF = new VBox();
         TextField findTF = new TextField();
@@ -36,23 +34,36 @@ public class FindAndReplace {
 
         HBox leftHBox = new HBox();
         leftHBox.setSpacing(10);
-        leftHBox.getChildren().addAll(leftLabels,leftTF);
+        leftHBox.getChildren().addAll(leftLabels, leftTF);
 
         bp.setLeft(leftHBox);
+        RadioButton radioButton = new RadioButton("take letter case into account");
 
 
         Button replaceButton = new Button("Replace");
         replaceButton.setOnAction(event -> {
             Scanner scanner = new Scanner(ta.getText());
-            String newText = "";
+            StringBuilder newText = new StringBuilder();
             while (scanner.hasNextLine()) {
                 String read = scanner.nextLine();
-                if (read.contains(findTF.getText())) {
-                    read = read.replace(findTF.getText(), replaceTF.getText());
-                    newText = newText + read + "\n";
+                if (radioButton.isSelected()) {
+                    if (read.contains(findTF.getText())) {
+                        read = read.replace(findTF.getText(), replaceTF.getText());
+                    }
+                    newText.append(read).append("\n");
                 }
-            }if (!newText.isEmpty()){
-                ta.setText(newText);
+
+                if (!radioButton.isSelected()) {
+                    read = read.toLowerCase();
+                    if (read.contains(findTF.getText().toLowerCase())) {
+                        read = read.replace(findTF.getText(), replaceTF.getText());
+                    }
+                    newText.append(read).append("\n");
+                }
+            }
+
+            if (newText.length() > 0) {
+                ta.setText(newText.toString());
             }
 
         });
@@ -65,16 +76,15 @@ public class FindAndReplace {
         buttons.getChildren().addAll(replaceButton, cancelButton);
         bp.setRight(buttons);
 
-        RadioButton radioButton = new RadioButton("take letter case into account");
+
         bp.setBottom(radioButton);
-        bp.setPadding(new Insets(10,10,10,10));
+        bp.setPadding(new Insets(10, 10, 10, 10));
 
         bp.setPrefSize(300, 200);
         Scene scene = new Scene(bp);
         stage.setScene(scene);
         stage.show();
         stage.setTitle("Find and replace");
-        return stage;
 
     }
 }
