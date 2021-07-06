@@ -9,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class FindAndReplace {
@@ -54,9 +55,9 @@ public class FindAndReplace {
                 }
 
                 if (!radioButton.isSelected()) {
-                    read = read.toLowerCase();
-                    if (read.contains(findTF.getText().toLowerCase())) {
+                    if (read.toLowerCase().contains(findTF.getText().toLowerCase())) {
                         read = read.replace(findTF.getText(), replaceTF.getText());
+                        read = read.replace(findTF.getText().toUpperCase(), replaceTF.getText());
                     }
                     newText.append(read).append("\n");
                 }
