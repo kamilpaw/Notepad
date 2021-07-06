@@ -4,12 +4,12 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
@@ -29,11 +29,17 @@ import java.time.format.DateTimeFormatter;
 
 public class Notepad extends Application {
 
-    BorderPane bp;
-    MenuBar menuBar;
-    File file;
-    CheckMenuItem statusBar;
+    private BorderPane bp;
+    private MenuBar menuBar;
+    private File file;
+    private CheckMenuItem statusBar;
 
+    public Notepad() {
+        this.bp = bp;
+        this.menuBar = menuBar;
+        this.file = file;
+        this.statusBar = statusBar;
+    }
 
     public void start(Stage stage) {
         FindAndReplace findAndReplace = new FindAndReplace();
@@ -166,7 +172,7 @@ public class Notepad extends Application {
         if (file != null && file.exists()) {
             try {
                 FileInputStream fis = new FileInputStream(file);
-                byte[] bytes = new byte[(int) file.length()];
+                byte[] bytes = new byte[(int)file.length()];
                 fis.read(bytes);
                 ta.setText(new String(bytes));
                 fis.close();
@@ -204,6 +210,5 @@ public class Notepad extends Application {
             }
         }
     }
-
 }
 
